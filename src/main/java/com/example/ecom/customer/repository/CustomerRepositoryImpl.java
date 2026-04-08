@@ -2,11 +2,11 @@ package com.example.ecom.customer.repository;
 
 import com.example.ecom.customer.model.Customer;
 import com.example.ecom.customer.model.QCustomer;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -18,10 +18,10 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     @Override
     public List<Customer> findCustomersByEmail(String email) {
         QCustomer qCustomer = QCustomer.customer;
-        JPAQuery query = new JPAQuery(entityManager);
+        JPAQuery<Customer> query = new JPAQuery<>(entityManager);
 
         return query.from(qCustomer)
                 .where(qCustomer.email.eq(email))
-                .list(qCustomer);
+                .fetch();
     }
 }
